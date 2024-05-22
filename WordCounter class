@@ -1,0 +1,59 @@
+//10.
+// You are tasked with creating a Java program that counts the number of unique words
+//in a given text using a HashSet. Requirements: WordCounter Class:
+// Create a WordCounter class that includes the following:
+// A method countUniqueWords(String text) that takes a text as input and returns thecount of unique words.
+// Use a HashSet to store unique words. Consider a word as any sequence of characters separated by whitespace.
+//Main Application:Implement a main application that demonstrates the functionality of the WordCounter class.
+//Allow the user to input a text string. Use the WordCounter class to count and display the number of unique words
+//in the input text.
+// Sample Output : Enter a text string: This is a simple Java program. Java is powerful and simple.
+//Number of unique words: 8
+
+...........................................................................................................................................
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+ 
+class WordCounter {
+ 
+    // Method to count unique words in a given text
+    public int countUniqueWords(String text) {
+        // Use a HashSet to store unique words
+        Set<String> uniqueWords = new HashSet<>();
+ 
+        // Split the text into words using whitespace as a delimiter
+        String[] words = text.split("\\s+");
+ 
+        // Add each word to the HashSet
+        for (String word : words) {
+            uniqueWords.add(word.toLowerCase()); // Converting to lowercase to avoid case sensitivity
+        }
+ 
+        // Return the number of unique words
+        return uniqueWords.size();
+    }
+}
+ 
+public class UniqueWordCounterApp10 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        // Allow the user to input a text string
+        System.out.print("Enter a text string: ");
+        String inputText = scanner.nextLine();
+ 
+        // Create an instance of WordCounter
+        WordCounter wordCounter = new WordCounter();
+ 
+        // Use the WordCounter to count the number of unique words
+        int uniqueWordCount = wordCounter.countUniqueWords(inputText);
+ 
+        // Display the number of unique words
+        System.out.println("Number of unique words: " + uniqueWordCount);
+ 
+        scanner.close();
+    }
+}
+ 
+ 
