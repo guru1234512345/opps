@@ -1,0 +1,189 @@
+//Build an online shopping cart system where users can add, remove, and purchase items.
+//Define an interface named Purchasable with methods like addItem(), removeItem(), and calculateTotalPrice().
+//Implement this interface in classes representing different types of items such as Electronics, Clothing, and Books.
+//Develop a shopping cart manager class to manage user interactions and handle the purchase process.
+
+
+import java.util.*;
+ 
+interface Purchasable {
+    void addItem(int quantity);
+    void removeItem(int quantity);
+    double calculateTotalPrice();
+    String getItemDetails();
+}
+ 
+class Item implements Purchasable {
+    private String name;
+    private double price;
+    private int quantity;
+ 
+    public Item(String name, double price) {
+        this.name = name;
+        this.price = price;
+        this.quantity = 0;
+    }
+ 
+    @Override
+    public void addItem(int quantity) {
+        this.quantity += quantity;
+    }
+ 
+    @Override
+    public void removeItem(int quantity) {
+        if (this.quantity >= quantity) {
+            this.quantity -= quantity;
+        } else {
+            System.out.println("Not enough items to remove.");
+        }
+    }
+ 
+    @Override
+    public double calculateTotalPrice() {
+        return price * quantity;
+    }
+ 
+    @Override
+    public String getItemDetails() {
+        return "Item: " + name + ", Price: $" + price + ", Quantity: " + quantity + ", Total Price: $" + calculateTotalPrice();
+    }
+ 
+    public int getQuantity() {
+        return quantity;
+    }
+}
+ 
+class Electronics extends Item {
+    public Electronics(String name, double price) {
+        super(name, price);
+    }
+}
+ 
+class Clothing extends Item {
+    public Clothing(String name, double price) {
+        super(name, price);
+    }
+}
+ 
+class Books extends Item {
+    public Books(String name, double price) {
+        super(name, price);
+    }
+}
+ 
+class ShoppingCart {
+    private List<Purchasable> items;
+ 
+    public ShoppingCart() {
+        items = new ArrayList<>();
+    }
+ 
+    public void addItem(Purchasable item, int quantity) {
+        item.addItem(quantity);
+        if (!items.contains(item)) {
+            items.add(item);
+        }
+        System.out.println("Item added to cart.");
+    }
+ 
+    public void removeItem(Purchasable item, int quantity) {
+        item.removeItem(quantity);
+        if (item.calculateTotalPrice() == 0) {
+            items.remove(item);
+        }
+        System.out.println("Item removed from cart.");
+    }
+ 
+    public double calculateTotalPrice() {
+        double total = 0;
+        for (Purchasable item : items) {
+            total += item.calculateTotalPrice();
+        }
+        return total;
+    }
+ 
+    public void viewCart() {
+        if (items.isEmpty()) {
+            System.out.println("Your cart is empty.");
+        } else {
+            for (Purchasable item : items) {
+                System.out.println(item.getItemDetails());
+            }
+            System.out.println("Total Cart Price: $" + calculateTotalPrice());
+        }
+    }
+ 
+    public void checkout() {
+        if (items.isEmpty()) {
+            System.out.println("Your cart is empty. Nothing to purchase.");
+        } else {
+            System.out.println("Purchasing the following items:");
+            viewCart();
+            items.clear();
+            System.out.println("Purchase complete. Your cart is now empty.");
+        }
+    }
+}
+ 
+public class ShoppingCartSystem22 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ShoppingCart cart = new ShoppingCart();
+        Map<String, Purchasable> availableItems = new HashMap<>();
+       
+        availableItems.put("Laptop", new Electronics("Laptop", 999.99));
+        availableItems.put("T-Shirt", new Clothing("T-Shirt", 19.99));
+        availableItems.put("Book", new Books("Book", 14.99));
+ 
+        while (true) {
+            System.out.println("1. Add Item");
+            System.out.println("2. Remove Item");
+            System.out.println("3. View Cart");
+            System.out.println("4. Checkout");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+ 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter item name: ");
+                    String addItemName = scanner.nextLine();
+                    Purchasable addItem = availableItems.get(addItemName);
+                    if (addItem != null) {
+                        System.out.print("Enter quantity: ");
+                        int addQuantity = scanner.nextInt();
+                        cart.addItem(addItem, addQuantity);
+                    } else {
+                        System.out.println("Item not found.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter item name: ");
+                    String removeItemName = scanner.nextLine();
+                    Purchasable removeItem = availableItems.get(removeItemName);
+                    if (removeItem != null) {
+                        System.out.print("Enter quantity: ");
+                        int removeQuantity = scanner.nextInt();
+                        cart.removeItem(removeItem, removeQuantity);
+                    } else {
+                        System.out.println("Item not found.");
+                    }
+                    break;
+                case 3:
+                    cart.viewCart();
+                    break;
+                case 4:
+                    cart.checkout();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+ 
