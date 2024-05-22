@@ -1,0 +1,96 @@
+7.	Implement a Java program to represent a shape hierarchy. The program should have interfaces for different types of shapes, such as Drawable for shapes that can be drawn and Resizable for shapes that can be resized. 
+Interface Drawable has draw() method
+Interface Resizable has resize(double factor) method
+Implement classes for specific shapes such as circle, rectangle and demonstrate multiple inheritance by implementing both Drawable and Resizable interfaces in appropriate classes.
+Circle implements both interfaces and implements both methods
+Rectangle implements only Drawable interface and implements draw() method.
+
+
+
+
+
+import java.util.Scanner;
+ 
+interface Drawable {
+    void draw();
+}
+ 
+interface Resizable {
+    void resize(double factor);
+}
+ 
+class Circle implements Drawable, Resizable {
+    private double radius;
+ 
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+ 
+    @Override
+    public void draw() {
+        System.out.println("Drawing a Circle with radius: " + radius);
+    }
+ 
+    @Override
+    public void resize(double factor) {
+        radius *= factor;
+        System.out.println("Resized Circle to radius: " + radius);
+    }
+ 
+    public double getRadius() {
+        return radius;
+    }
+}
+ 
+class Rectangle implements Drawable {
+    private double length;
+    private double width;
+ 
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+ 
+    @Override
+    public void draw() {
+        System.out.println("Drawing a Rectangle with length: " + length + " and width: " + width);
+    }
+ 
+    public double getLength() {
+        return length;
+    }
+ 
+    public double getWidth() {
+        return width;
+    }
+}
+ 
+public class Implements7 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        System.out.print("Enter the radius of the circle: ");
+        double circleRadius = scanner.nextDouble();
+        Circle circle = new Circle(circleRadius);
+ 
+        System.out.print("Enter the length of the rectangle: ");
+        double rectLength = scanner.nextDouble();
+        System.out.print("Enter the width of the rectangle: ");
+        double rectWidth = scanner.nextDouble();
+        Rectangle rectangle = new Rectangle(rectLength, rectWidth);
+ 
+        scanner.close();
+ 
+        // Drawing shapes
+        circle.draw();
+        rectangle.draw();
+ 
+        // Resizing the circle
+        circle.resize(2.0);
+ 
+        // Drawing shapes again to see changes
+        circle.draw();
+        rectangle.draw();
+    }
+}
+ 
