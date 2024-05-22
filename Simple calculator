@@ -1,0 +1,11 @@
+6.	implement a Java program to represent a simple calculator. The calculator should have the following features:
+A.	Addition of two numbers
+B.	Subtraction of two numbers
+C.	Multiplication of two numbers
+D.	Division of two numbers
+Additionally, the program should initialize a constant value for the value of PI (3.14) and print a welcome message when an instance of the calculator is created. (static block)
+Print “New calculator instance” using the instance block.
+Your task is to implement a Java program that demonstrates the use of constructors, static block, and instance block to achieve these features.
+
+
+
