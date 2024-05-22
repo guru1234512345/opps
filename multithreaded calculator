@@ -1,0 +1,98 @@
+//17.
+//Design a Java program that simulates a multithreaded calculator. The program should create multiple threads,
+//each responsible for performing a specific arithmetic operation on two numbers.
+// The program should have the following features:
+// 1.   Thread Creation:
+// •    Create separate threads for addition, subtraction, multiplication, and division operations.
+//  Input:
+// •    Prompt the user to enter two numbers and choose an arithmetic operation.(addition, subtraction,
+//multiplication and division)
+//  Output:
+// •    Display the result of the arithmetic operation performed by each thread.
+//  Concurrency:
+// •    Ensure that the threads execute concurrently, with each thread performing its designated operation
+// independently of the others.
+//  Error Handling:
+// •    Validate user input to ensure that numeric values entered are valid.
+// •    Handle cases where division by zero occurs.
+
+
+import java.util.Scanner;
+ 
+class CalculatorThread extends Thread {
+    private double num1;
+    private double num2;
+    private String operation;
+ 
+    public CalculatorThread(double num1, double num2, String operation) {
+        this.num1 = num1;
+        this.num2 = num2;
+        this.operation = operation;
+    }
+ 
+    @Override
+    public void run() {
+        double result = 0.0;
+        switch (operation) {
+            case "addition":
+                result = num1 + num2;
+                System.out.println("Result of addition: " + result);
+                break;
+            case "subtraction":
+                result = num1 - num2;
+                System.out.println("Result of subtraction: " + result);
+                break;
+            case "multiplication":
+                result = num1 * num2;
+                System.out.println("Result of multiplication: " + result);
+                break;
+            case "division":
+                if (num2 != 0) {
+                    result = num1 / num2;
+                    System.out.println("Result of division: " + result);
+                } else {
+                    System.out.println("Error: Division by zero!");
+                }
+                break;
+            default:
+                System.out.println("Invalid operation!");
+        }
+    }
+}
+ 
+public class MultiThreadedCalculator17 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        System.out.print("Enter first number: ");
+        while (!scanner.hasNextDouble()) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            scanner.next(); // clear invalid input
+            System.out.print("Enter first number: ");
+        }
+        double num1 = scanner.nextDouble();
+ 
+        System.out.print("Enter second number: ");
+        while (!scanner.hasNextDouble()) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            scanner.next(); // clear invalid input
+            System.out.print("Enter second number: ");
+        }
+        double num2 = scanner.nextDouble();
+ 
+        System.out.println("Choose operation (addition, subtraction, multiplication, division): ");
+        String operation = scanner.next().toLowerCase();
+ 
+        if (operation.equals("addition") || operation.equals("subtraction") ||
+                operation.equals("multiplication") || operation.equals("division")) {
+ 
+            CalculatorThread calcThread = new CalculatorThread(num1, num2, operation);
+            calcThread.start();
+        } else {
+            System.out.println("Invalid operation! Please choose from addition, subtraction, multiplication, or division.");
+        }
+ 
+        scanner.close();
+    }
+}
+ 
