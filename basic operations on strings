@@ -1,0 +1,129 @@
+//9.
+// Implement a Java program to perform basic operations on strings. The program should support the following operations:
+// A.   Concatenate two strings.
+// B.   Find the length of a string.
+// C.   Convert a string to uppercase.
+// D.   Convert a string to lowercase.
+// E.   Check if a string contains a specific substring.
+// F.   Replace a substring with another substring in a string.
+ 
+
+import java.util.Scanner;
+ 
+public class StringOperation9 {
+ 
+    // A. Concatenate two strings
+    public String concatenateStrings(String str1, String str2) {
+        return str1 + str2;
+    }
+ 
+    // B. Find the length of a string
+    public int findLength(String str) {
+        return str.length();
+    }
+ 
+    // C. Convert a string to uppercase
+    public String convertToUpperCase(String str) {
+        return str.toUpperCase();
+    }
+ 
+    // D. Convert a string to lowercase
+    public String convertToLowerCase(String str) {
+        return str.toLowerCase();
+    }
+ 
+    // E. Check if a string contains a specific substring
+    public boolean containsSubstring(String str, String substring) {
+        return str.contains(substring);
+    }
+ 
+    // F. Replace a substring with another substring in a string
+    public String replaceSubstring(String str, String target, String replacement) {
+        return str.replace(target, replacement);
+    }
+ 
+    public static void main(String[] args) {
+        StringOperation9 stringOps = new StringOperation9();
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+ 
+        while (!exit) {
+            System.out.println("\nSelect an operation:");
+            System.out.println("1. Concatenate two strings");
+            System.out.println("2. Find the length of a string");
+            System.out.println("3. Convert a string to uppercase");
+            System.out.println("4. Convert a string to lowercase");
+            System.out.println("5. Check if a string contains a specific substring");
+            System.out.println("6. Replace a substring with another substring in a string");
+            System.out.println("7. Exit");
+            System.out.print("Your choice: ");
+ 
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume the newline character
+ 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the first string: ");
+                    String str1 = scanner.nextLine();
+                    System.out.print("Enter the second string: ");
+                    String str2 = scanner.nextLine();
+                    String concatenated = stringOps.concatenateStrings(str1, str2);
+                    System.out.println("Concatenated String: " + concatenated);
+                    break;
+ 
+                case 2:
+                    System.out.print("Enter a string: ");
+                    String str = scanner.nextLine();
+                    int length = stringOps.findLength(str);
+                    System.out.println("Length of String: " + length);
+                    break;
+ 
+                case 3:
+                    System.out.print("Enter a string: ");
+                    str = scanner.nextLine();
+                    String upperCase = stringOps.convertToUpperCase(str);
+                    System.out.println("Uppercase String: " + upperCase);
+                    break;
+ 
+                case 4:
+                    System.out.print("Enter a string: ");
+                    str = scanner.nextLine();
+                    String lowerCase = stringOps.convertToLowerCase(str);
+                    System.out.println("Lowercase String: " + lowerCase);
+                    break;
+ 
+                case 5:
+                    System.out.print("Enter a string: ");
+                    str = scanner.nextLine();
+                    System.out.print("Enter the substring to check: ");
+                    String substring = scanner.nextLine();
+                    boolean contains = stringOps.containsSubstring(str, substring);
+                    System.out.println("Contains '" + substring + "': " + contains);
+                    break;
+ 
+                case 6:
+                    System.out.print("Enter a string: ");
+                    str = scanner.nextLine();
+                    System.out.print("Enter the target substring: ");
+                    String target = scanner.nextLine();
+                    System.out.print("Enter the replacement substring: ");
+                    String replacement = scanner.nextLine();
+                    String replaced = stringOps.replaceSubstring(str, target, replacement);
+                    System.out.println("Replaced String: " + replaced);
+                    break;
+ 
+                case 7:
+                    exit = true;
+                    System.out.println("Exiting the program. Goodbye!");
+                    break;
+ 
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+ 
+        scanner.close();
+    }
+}
+ 
+ 
