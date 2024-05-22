@@ -1,0 +1,233 @@
+// Develop a vehicle rental system where customers can rent different types of vehicles.
+// Define an interface called Rentable with methods like rent(), returnVehicle(), and calculateRentalCost().
+// Implement this interface in classes representing different types of vehicles such as Car, Motorcycle, and Bicycle.
+// Create a rental manager class to handle the renting and returning of vehicles.
+ 
+
+import java.util.*;
+ 
+interface Rentable {
+    void rent(int days);
+    void returnVehicle();
+    double calculateRentalCost(int days);
+    String getVehicleDetails();
+    boolean isRented();
+}
+ 
+abstract class Vehicle implements Rentable {
+    private String licensePlate;
+    private double dailyRate;
+    private boolean rented;
+ 
+    public Vehicle(String licensePlate, double dailyRate) {
+        this.licensePlate = licensePlate;
+        this.dailyRate = dailyRate;
+        this.rented = false;
+    }
+ 
+    @Override
+    public void rent(int days) {
+        if (!rented) {
+            rented = true;
+            System.out.println("Vehicle rented for " + days + " days.");
+        } else {
+            System.out.println("Vehicle is already rented.");
+        }
+    }
+ 
+    @Override
+    public void returnVehicle() {
+        if (rented) {
+            rented = false;
+            System.out.println("Vehicle returned.");
+        } else {
+            System.out.println("Vehicle was not rented.");
+        }
+    }
+ 
+    @Override
+    public double calculateRentalCost(int days) {
+        return dailyRate * days;
+    }
+ 
+    @Override
+    public boolean isRented() {
+        return rented;
+    }
+ 
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+ 
+    @Override
+    public String toString() {
+        return "License Plate: " + licensePlate + ", Daily Rate: $" + dailyRate + ", Rented: " + rented;
+    }
+}
+ 
+class Car extends Vehicle {
+    public Car(String licensePlate, double dailyRate) {
+        super(licensePlate, dailyRate);
+    }
+ 
+    @Override
+    public String getVehicleDetails() {
+        return "Car - " + super.toString();
+    }
+}
+ 
+class Motorcycle extends Vehicle {
+    public Motorcycle(String licensePlate, double dailyRate) {
+        super(licensePlate, dailyRate);
+    }
+ 
+    @Override
+    public String getVehicleDetails() {
+        return "Motorcycle - " + super.toString();
+    }
+}
+ 
+class Bicycle extends Vehicle {
+    public Bicycle(String licensePlate, double dailyRate) {
+        super(licensePlate, dailyRate);
+    }
+ 
+    @Override
+    public String getVehicleDetails() {
+        return "Bicycle - " + super.toString();
+    }
+}
+ 
+class RentalManager {
+    private List<Vehicle> vehicles;
+ 
+    public RentalManager() {
+        vehicles = new ArrayList<>();
+    }
+ 
+    public void addVehicle(Vehicle vehicle) {
+        vehicles.add(vehicle);
+        System.out.println("Vehicle added: " + vehicle.getVehicleDetails());
+    }
+ 
+    public void rentVehicle(String licensePlate, int days) {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getLicensePlate().equals(licensePlate) && !vehicle.isRented()) {
+                vehicle.rent(days);
+                System.out.println("Total rental cost: $" + vehicle.calculateRentalCost(days));
+                return;
+            }
+        }
+        System.out.println("Vehicle with license plate " + licensePlate + " is not available.");
+    }
+ 
+    public void returnVehicle(String licensePlate) {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getLicensePlate().equals(licensePlate) && vehicle.isRented()) {
+                vehicle.returnVehicle();
+                return;
+            }
+        }
+        System.out.println("Vehicle with license plate " + licensePlate + " is not currently rented.");
+    }
+ 
+    public void displayAvailableVehicles() {
+        boolean anyAvailable = false;
+        for (Vehicle vehicle : vehicles) {
+            if (!vehicle.isRented()) {
+                System.out.println(vehicle.getVehicleDetails());
+                anyAvailable = true;
+            }
+        }
+        if (!anyAvailable) {
+            System.out.println("No vehicles available for rent.");
+        }
+    }
+ 
+    public void displayAllVehicles() {
+        if (vehicles.isEmpty()) {
+            System.out.println("No vehicles in the system.");
+        } else {
+            for (Vehicle vehicle : vehicles) {
+                System.out.println(vehicle.getVehicleDetails());
+            }
+        }
+    }
+}
+ 
+public class VehicleRentalSystem24 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        RentalManager rentalManager = new RentalManager();
+ 
+        rentalManager.addVehicle(new Car("ABC123", 50));
+        rentalManager.addVehicle(new Motorcycle("XYZ789", 30));
+        rentalManager.addVehicle(new Bicycle("BIKE001", 10));
+ 
+        while (true) {
+            System.out.println("1. Add Vehicle");
+            System.out.println("2. Rent Vehicle");
+            System.out.println("3. Return Vehicle");
+            System.out.println("4. Display Available Vehicles");
+            System.out.println("5. Display All Vehicles");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+ 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter vehicle type (Car/Motorcycle/Bicycle): ");
+                    String type = scanner.nextLine();
+                    System.out.print("Enter license plate: ");
+                    String licensePlate = scanner.nextLine();
+                    System.out.print("Enter daily rate: ");
+                    double dailyRate = scanner.nextDouble();
+                    scanner.nextLine(); // consume newline
+ 
+                    switch (type.toLowerCase()) {
+                        case "car":
+                            rentalManager.addVehicle(new Car(licensePlate, dailyRate));
+                            break;
+                        case "motorcycle":
+                            rentalManager.addVehicle(new Motorcycle(licensePlate, dailyRate));
+                            break;
+                        case "bicycle":
+                            rentalManager.addVehicle(new Bicycle(licensePlate, dailyRate));
+                            break;
+                        default:
+                            System.out.println("Invalid vehicle type.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter license plate of the vehicle to rent: ");
+                    String rentLicensePlate = scanner.nextLine();
+                    System.out.print("Enter number of days to rent: ");
+                    int days = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+                    rentalManager.rentVehicle(rentLicensePlate, days);
+                    break;
+                case 3:
+                    System.out.print("Enter license plate of the vehicle to return: ");
+                    String returnLicensePlate = scanner.nextLine();
+                    rentalManager.returnVehicle(returnLicensePlate);
+                    break;
+                case 4:
+                    rentalManager.displayAvailableVehicles();
+                    break;
+                case 5:
+                    rentalManager.displayAllVehicles();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+ 
+ 
+ 
