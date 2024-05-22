@@ -1,0 +1,74 @@
+//12.
+// a.   Create arrayList, add the integer elements in arrayList using asList().
+//       Remove the duplicate values and return an arrayList containing unique values.
+//       Implement the logic inside removeDuplicates() method.
+//       Test the functionalities using the main () method of the Tester class.
+//       Sample Input and Output---------10, 20, 10, 15,40,15,40 --- 10,20,15,40.
+// b.   Create any arraylist and perform following operations-
+// I.   check if an element  exists in ArrayList?
+// II.  add element at particular index of ArrayList?
+// III. remove element at particular index of ArrayList?
+// IV.  sort a given array list.(collections.sort())
+// V.   reverse elements in an array list.
+// VI.  compare two array lists.
+// VII. find first and last occurrence of repeated elements.
+ 
+...................................................................................................................
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+ 
+public class ArrayListOperations12 {
+    // Remove duplicates from an ArrayList
+    public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+        ArrayList<Integer> uniqueList = new ArrayList<>();
+        for (Integer num : list) {
+            if (!uniqueList.contains(num)) {
+                uniqueList.add(num);
+            }
+        }
+        return uniqueList;
+    }
+ 
+    public static void main(String[] args) {
+        // Testing removeDuplicates() method
+        ArrayList<Integer> inputList = new ArrayList<>(Arrays.asList(10, 20, 10, 15, 40, 15, 40));
+        ArrayList<Integer> uniqueValues = removeDuplicates(inputList);
+        System.out.println("Unique Values: " + uniqueValues);
+ 
+        // Create any ArrayList
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(5, 10, 15, 20, 25));
+ 
+        // I. Check if an element exists in ArrayList
+        System.out.println("Does 10 exist in the list? " + list.contains(10));
+ 
+        // II. Add an element at a particular index
+        list.add(2, 12);
+        System.out.println("List after adding 12 at index 2: " + list);
+ 
+        // III. Remove an element at a particular index
+        list.remove(3);
+        System.out.println("List after removing element at index 3: " + list);
+ 
+        // IV. Sort the ArrayList
+        Collections.sort(list);
+        System.out.println("Sorted list: " + list);
+ 
+        // V. Reverse elements in the ArrayList
+        Collections.reverse(list);
+        System.out.println("Reversed list: " + list);
+ 
+        // VI. Compare two ArrayLists
+        ArrayList<Integer> anotherList = new ArrayList<>(Arrays.asList(5, 10, 15, 20, 25));
+        System.out.println("Are the two lists equal? " + list.equals(anotherList));
+ 
+        // VII. Find first and last occurrence of repeated elements
+        ArrayList<Integer> repeatedList = new ArrayList<>(Arrays.asList(5, 10, 15, 10, 20, 25, 15));
+        int firstOccurrence = repeatedList.indexOf(10);
+        int lastOccurrence = repeatedList.lastIndexOf(10);
+        System.out.println("First occurrence of 10: " + firstOccurrence);
+        System.out.println("Last occurrence of 10: " + lastOccurrence);
+    }
+}
+ 
+ 
