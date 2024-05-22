@@ -1,0 +1,113 @@
+//16.
+// Write a Java program for following operations: You can write menu driven program -
+// a.   Create 5 threads.
+// b.   Two Synchronized methods -one will print 2’s table and another will prints 5’s table up to 5 places.
+// c.   Program that shows demonstration for daemon thread.
+
+
+
+class NumberPrinter {
+    // Synchronized method to print the 2's table
+    synchronized void printTwoTable() {
+        System.out.println("Printing 2's table:");
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("2 x " + i + " = " + (2 * i));
+            try {
+                Thread.sleep(500); // Delay for better visualization
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+ 
+    // Synchronized method to print the 5's table
+    synchronized void printFiveTable() {
+        System.out.println("Printing 5's table:");
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("5 x " + i + " = " + (5 * i));
+            try {
+                Thread.sleep(500); // Delay for better visualization
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+ 
+// Daemon thread implementation
+class DaemonThreadDemo implements Runnable {
+    @Override
+    public void run() {
+        while (true) {
+            System.out.println("Daemon thread is running...");
+            try {
+                Thread.sleep(1000); // Delay for better visualization
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+ 
+public class ThreadDemo16 {
+    public static void main(String[] args) {
+        // Create 5 threads
+        Thread[] threads = new Thread[5];
+        for (int i = 0; i < 5; i++) {
+            threads[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getName() + " is running...");
+                }
+            });
+        }
+ 
+        // Start and join threads
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+ 
+        // Create an instance of NumberPrinter
+        NumberPrinter printer = new NumberPrinter();
+ 
+        // Create threads for synchronized methods
+        Thread twoTableThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                printer.printTwoTable();
+            }
+        });
+        Thread fiveTableThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                printer.printFiveTable();
+            }
+        });
+ 
+        // Start synchronized method threads
+        twoTableThread.start();
+        fiveTableThread.start();
+ 
+        // Create and start daemon thread
+        Thread daemonThread = new Thread(new DaemonThreadDemo());
+        daemonThread.setDaemon(true);
+        daemonThread.start();
+ 
+        // Main thread waiting for daemon thread to complete (will not happen in this case)
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+ 
+        System.out.println("Main thread exiting...");
+    }
+}
+ 
