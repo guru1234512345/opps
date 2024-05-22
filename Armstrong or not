@@ -1,0 +1,111 @@
+//11.
+// a. Check that given number is Armstrong or not.Eg-153=1 3 +5 3 +3 3 =1+225+27=153
+// b. Write a Java program to check whether two strings are anagram or not?
+// RACE and CARE are anagram strings.
+// c. Take two DOB in string format from user. Compare it and display the
+// messages as “Younger”, ”Elder” or “Same age”.
+// d. Check that given no. is prime or not.
+..................................................................................................................
+ 
+import java.util.Arrays;
+import java.util.Scanner;
+ 
+public class Armstrong11 {
+ 
+    // Task a: Check if a given number is Armstrong or not
+    public static boolean isArmstrong(int number) {
+        int originalNumber = number;
+        int result = 0;
+        int digits = String.valueOf(number).length();
+ 
+        while (number != 0) {
+            int remainder = number % 10;
+            result += Math.pow(remainder, digits);
+            number /= 10;
+        }
+ 
+        return result == originalNumber;
+    }
+ 
+    // Task b: Check if two strings are anagrams or not
+    public static boolean areAnagrams(String str1, String str2) {
+        char[] charArray1 = str1.toCharArray();
+        char[] charArray2 = str2.toCharArray();
+ 
+        Arrays.sort(charArray1);
+        Arrays.sort(charArray2);
+ 
+        return Arrays.equals(charArray1, charArray2);
+    }
+ 
+    // Task c: Compare two DOBs and display the message
+    public static String compareDOB(String dob1, String dob2) {
+        if (dob1.equals(dob2)) {
+            return "Same age";
+        } else if (dob1.compareTo(dob2) > 0) {
+            return "Younger";
+        } else {
+            return "Elder";
+        }
+    }
+ 
+    // Task d: Check if a given number is prime or not
+    public static boolean isPrime(int number) {
+        if (number <= 1) {
+            return false;
+        }
+ 
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+ 
+        return true;
+    }
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        // Task a: Check if a given number is Armstrong or not
+        System.out.print("Enter a number to check if it is an Armstrong number: ");
+        int number = scanner.nextInt();
+        if (isArmstrong(number)) {
+            System.out.println(number + " is an Armstrong number.");
+        } else {
+            System.out.println(number + " is not an Armstrong number.");
+        }
+ 
+        // Task b: Check if two strings are anagrams or not
+        System.out.print("Enter the first string: ");
+        String str1 = scanner.next();
+        System.out.print("Enter the second string: ");
+        String str2 = scanner.next();
+        if (areAnagrams(str1, str2)) {
+            System.out.println(str1 + " and " + str2 + " are anagrams.");
+        } else {
+            System.out.println(str1 + " and " + str2 + " are not anagrams.");
+        }
+ 
+        // Task c: Compare two DOBs and display the message
+        System.out.print("Enter the first date of birth (yyyy-mm-dd): ");
+        String dob1 = scanner.next();
+        System.out.print("Enter the second date of birth (yyyy-mm-dd): ");
+        String dob2 = scanner.next();
+        System.out.println("The result of DOB comparison: " + compareDOB(dob1, dob2));
+ 
+        // Task d: Check if a given number is prime or not
+        System.out.print("Enter a number to check if it is prime: ");
+        int primeNumber = scanner.nextInt();
+        if (isPrime(primeNumber)) {
+            System.out.println(primeNumber + " is a prime number.");
+        } else {
+            System.out.println(primeNumber + " is not a prime number.");
+        }
+ 
+        scanner.close();
+    }
+}
+ 
+ 
+ 
