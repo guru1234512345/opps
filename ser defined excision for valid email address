@@ -1,0 +1,40 @@
+//19
+// Write a Java program for user defined excision for valid email address.
+// Program should check that the user has entered a valid email address which should contain ‘@’ and ‘.’
+//Otherwise it has to raise user defined exception InvalidEmailException .
+//Checks if the email contains '@' and '.', and if '@' comes before '.'. If these conditions are met,
+//it considers the email address valid; otherwise, it's considered invalid.
+ 
+
+import java.util.Scanner;
+ 
+class InvalidEmailException extends Exception {
+    public InvalidEmailException(String message) {
+        super(message);
+    }
+}
+ 
+public class ValidateEmail {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter an email address:");
+        String email = scanner.nextLine();
+        try {
+            validateEmail(email);
+            System.out.println("Email is valid.");
+        } catch (InvalidEmailException e) {
+            System.out.println(e.getMessage());
+        }
+        scanner.close();
+    }
+ 
+    public static void validateEmail(String email) throws InvalidEmailException {
+        if (email.contains("@") && email.contains(".") && email.indexOf("@") < email.lastIndexOf(".")) {
+            // Valid email
+            System.out.println("Email is valid.");
+        } else {
+            // Invalid email, throw exception
+            throw new InvalidEmailException("Invalid email address.");
+        }
+    }
+}
