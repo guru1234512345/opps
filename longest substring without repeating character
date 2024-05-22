@@ -1,0 +1,51 @@
+//18
+//Write a Java program to find the length of the longest substring without repeating characters in a given string.
+//The program should have the following features:
+// 1.   Input:
+// •    Prompt the user to enter a string.
+//  Output:
+// •    Display the length of the longest substring without repeating characters.
+//  Substring Calculation:
+// •    Implement a method to calculate the length of the longest substring without repeating characters.
+// •    A substring is a contiguous sequence of characters within the string.
+// Sample o/p:
+// 1. Enter the string: abcabcbb
+//     Length of the longest substring without repeating characters: 3
+// 2. Enter the string: abcdefghhhhh
+//     Length of the longest substring without repeating characters: 8
+ 
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+ 
+public class LongestSubstringWithoutRepeatingChars18 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the string: ");
+        String input = scanner.nextLine();
+        scanner.close();
+ 
+        int maxLength = findLongestSubstringLength(input);
+        System.out.println("Length of the longest substring without repeating characters: " + maxLength);
+    }
+ 
+    public static int findLongestSubstringLength(String input) {
+        int n = input.length();
+        Map<Character, Integer> map = new HashMap<>();
+        int maxLength = 0;
+        int start = 0;
+ 
+        for (int end = 0; end < n; end++) {
+            char currentChar = input.charAt(end);
+            if (map.containsKey(currentChar)) {
+                start = Math.max(map.get(currentChar) + 1, start);
+            }
+            map.put(currentChar, end);
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+ 
+        return maxLength;
+    }
+}
+ 
