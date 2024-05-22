@@ -1,0 +1,58 @@
+5.	Implement a Java program for calculating the area of geometric shapes. 
+The program should support calculating the area of a rectangle, a square, and a circle. Each shape has a different method to calculate its area. 
+Your task is to implement a Java program that demonstrates method overloading by providing multiple versions of the calculateArea() method to calculate the area of each shape. 
+(Use method overloading)
+
+
+
+import java.util.Scanner;
+ 
+public class MethodOverloading5 {
+   
+    // Method to calculate the area of a rectangle
+    public double calculateArea(double length, double width) {
+        return length * width;
+    }
+ 
+    // Method to calculate the area of a square
+    public double calculateArea(double side) {
+        return side * side;
+    }
+ 
+    // Method to calculate the area of a circle
+    public double calculateArea(double radius, boolean isCircle) {
+        return Math.PI * radius * radius;
+    }
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        MethodOverloading5 areaCalculator = new MethodOverloading5();
+ 
+        // Input for rectangle
+        System.out.print("Enter the length of the rectangle: ");
+        double rectangleLength = scanner.nextDouble();
+        System.out.print("Enter the width of the rectangle: ");
+        double rectangleWidth = scanner.nextDouble();
+       
+        // Input for square
+        System.out.print("Enter the side of the square: ");
+        double squareSide = scanner.nextDouble();
+       
+        // Input for circle
+        System.out.print("Enter the radius of the circle: ");
+        double circleRadius = scanner.nextDouble();
+       
+        // Calculate areas
+        double rectangleArea = areaCalculator.calculateArea(rectangleLength, rectangleWidth);
+        double squareArea = areaCalculator.calculateArea(squareSide);
+        double circleArea = areaCalculator.calculateArea(circleRadius, true);
+       
+        // Display results
+        System.out.println("\n\nArea of the rectangle: " + rectangleArea);
+        System.out.println("Area of the square: " + squareArea);
+        System.out.println("Area of the circle: " + circleArea);
+ 
+        scanner.close();
+    }
+}
+ 
