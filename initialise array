@@ -1,0 +1,130 @@
+//8.
+// Implement a Java program to perform basic operations on arrays. The program should support the following operations:
+// A.   Initialize an array with given elements.
+// B.   Find the sum of all elements in the array.
+// C.   Find the maximum element in the array.
+// D.   Find the minimum element in the array.
+// E.   Sort the elements of the array in ascending order.
+// F.   Reverse the elements of the array.
+ 
+..................................................................................................................................
+import java.util.Arrays;
+import java.util.Scanner;
+ 
+public class ArrayOperation8 {
+   
+    private int[] array;
+ 
+    // A. Initialize an array with given elements
+    public void initializeArray(int[] elements) {
+        array = Arrays.copyOf(elements, elements.length);
+        System.out.println("Array initialized: " + Arrays.toString(array));
+    }
+ 
+    // B. Find the sum of all elements in the array
+    public int findSum() {
+        int sum = 0;
+        for (int num : array) {
+            sum += num;
+        }
+        return sum;
+    }
+ 
+    // C. Find the maximum element in the array
+    public int findMax() {
+        int max = array[0];
+        for (int num : array) {
+            if (num > max) {
+                max = num;
+            }
+        }
+        return max;
+    }
+ 
+    // D. Find the minimum element in the array
+    public int findMin() {
+        int min = array[0];
+        for (int num : array) {
+            if (num < min) {
+                min = num;
+            }
+        }
+        return min;
+    }
+ 
+    // E. Sort the elements of the array in ascending order
+    public void sortArray() {
+        Arrays.sort(array);
+        System.out.println("Array sorted: " + Arrays.toString(array));
+    }
+ 
+    // F. Reverse the elements of the array
+    public void reverseArray() {
+        int n = array.length;
+        for (int i = 0; i < n / 2; i++) {
+            int temp = array[i];
+            array[i] = array[n - 1 - i];
+            array[n - 1 - i] = temp;
+        }
+        System.out.println("Array reversed: " + Arrays.toString(array));
+    }
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayOperation8 arrayOps = new ArrayOperation8();
+ 
+        System.out.print("Enter the number of elements in the array: ");
+        int n = scanner.nextInt();
+        int[] elements = new int[n];
+ 
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < n; i++) {
+            elements[i] = scanner.nextInt();
+        }
+ 
+        arrayOps.initializeArray(elements);
+ 
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Find the sum of elements");
+            System.out.println("2. Find the maximum element");
+            System.out.println("3. Find the minimum element");
+            System.out.println("4. Sort the array");
+            System.out.println("5. Reverse the array");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+ 
+            switch (choice) {
+                case 1:
+                    int sum = arrayOps.findSum();
+                    System.out.println("Sum of elements: " + sum);
+                    break;
+                case 2:
+                    int max = arrayOps.findMax();
+                    System.out.println("Maximum element: " + max);
+                    break;
+                case 3:
+                    int min = arrayOps.findMin();
+                    System.out.println("Minimum element: " + min);
+                    break;
+                case 4:
+                    arrayOps.sortArray();
+                    break;
+                case 5:
+                    arrayOps.reverseArray();
+                    break;
+                case 6:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+ 
+        scanner.close();
+    }
+}
+ 
+ 
