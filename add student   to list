@@ -1,0 +1,150 @@
+Implement a program to manage a list of students using the Iterator interface in Java. The program should allow the user to perform the following operations:
+Add a student to the list.
+Remove a student from the list.
+Display all students in the list.
+Replace the grade of any student 
+Each student should have attributes like name, roll number, and grade. Implement a Student class to represent a student, and a StudentManager class to manage the list of students using iterators
+
+
+
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    private String name;
+    private int rollNumber;
+    private String grade;
+
+    public Student(String name, int rollNumber, String grade) {
+        this.name = name;
+        this.rollNumber = rollNumber;
+        this.grade = grade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getRollNumber() {
+        return rollNumber;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return "\n\n\nStudent Details:\n" +
+                "-----------------\n" +
+                "Name: " + name + "\n" +
+                "Roll Number: " + rollNumber + "\n" +
+                "Grade: " + grade + "\n";
+    }
+
+}
+
+class StudentManager {
+    private List<Student> students;
+
+    public StudentManager() {
+        students = new ArrayList<>();
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public void removeStudent(int rollNumber) {
+        Iterator<Student> iterator = students.iterator();
+        while (iterator.hasNext()) {
+            Student student = iterator.next();
+            if (student.getRollNumber() == rollNumber) {
+                iterator.remove();
+                return;
+            }
+        }
+        System.out.println("Student with roll number " + rollNumber + " not found.");
+    }
+
+    public void displayStudents() {
+        Iterator<Student> iterator = students.iterator();
+        while (iterator.hasNext()) {
+            Student student = iterator.next();
+            System.out.println(student);
+        }
+    }
+
+    public void replaceGrade(int rollNumber, String newGrade) {
+        Iterator<Student> iterator = students.iterator();
+        while (iterator.hasNext()) {
+            Student student = iterator.next();
+            if (student.getRollNumber() == rollNumber) {
+                student.setGrade(newGrade);
+                return;
+            }
+        }
+        System.out.println("Student with roll number " + rollNumber + " not found.");
+    }
+}
+
+public class IteratorInterface1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StudentManager manager = new StudentManager();
+
+        while (true) {
+            System.out.println("Choose an operation:");
+            System.out.println("1. Add a student");
+            System.out.println("2. Remove a student");
+            System.out.println("3. Display all students");
+            System.out.println("4. Replace the grade of a student");
+            System.out.println("5. Exit");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter student name:");
+                    String name = scanner.nextLine();
+                    System.out.println("Enter roll number:");
+                    int rollNumber = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    System.out.println("Enter grade:");
+                    String grade = scanner.nextLine();
+                    manager.addStudent(new Student(name, rollNumber, grade));
+                    break;
+                case 2:
+                    System.out.println("Enter roll number of student to remove:");
+                    int rollNumberToRemove = scanner.nextInt();
+                    manager.removeStudent(rollNumberToRemove);
+                    break;
+                case 3:
+                    manager.displayStudents();
+                    break;
+                case 4:
+                    System.out.println("Enter roll number of student to replace grade:");
+                    int rollNumberToReplace = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    System.out.println("Enter new grade:");
+                    String newGrade = scanner.nextLine();
+                    manager.replaceGrade(rollNumberToReplace, newGrade);
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
