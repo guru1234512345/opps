@@ -1,0 +1,303 @@
+//Implement a Student class with attributes such as ID, name, age, gender, grade, and contact information using ArrayList.
+//Create a menu-driven program with an administrator login feature that allows authorized users to:
+// A.    Add a new student to the database.
+// B.   Remove a student from the database by their ID.
+// C.    Update student information (name, age, grade, etc.).
+// D.   Display all students in the database.
+// E.    Search for a student by their ID, name, grade, or any other criteria.
+// F.   Implement error handling and validation for user inputs, such as invalid IDs, duplicate entries, etc.
+
+
+import java.util.*;
+ 
+class Student {
+    private String id;
+    private String name;
+    private int age;
+    private String gender;
+    private String grade;
+    private String contactInfo;
+ 
+    public Student(String id, String name, int age, String gender, String grade, String contactInfo) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.grade = grade;
+        this.contactInfo = contactInfo;
+    }
+ 
+    public String getId() {
+        return id;
+    }
+ 
+    public void setName(String name) {
+        this.name = name;
+    }
+ 
+    public void setAge(int age) {
+        this.age = age;
+    }
+ 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+ 
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+ 
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+ 
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Gender: " + gender + ", Grade: " + grade + ", Contact: " + contactInfo;
+    }
+}
+ 
+class StudentDatabase {
+    private List<Student> students;
+ 
+    public StudentDatabase() {
+        students = new ArrayList<>();
+    }
+ 
+    public boolean addStudent(Student student) {
+        for (Student s : students) {
+            if (s.getId().equals(student.getId())) {
+                return false;
+            }
+        }
+        students.add(student);
+        return true;
+    }
+ 
+    public boolean removeStudent(String id) {
+        Iterator<Student> iterator = students.iterator();
+        while (iterator.hasNext()) {
+            Student student = iterator.next();
+            if (student.getId().equals(id)) {
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
+    }
+ 
+    public Student findStudentById(String id) {
+        for (Student student : students) {
+            if (student.getId().equals(id)) {
+                return student;
+            }
+        }
+        return null;
+    }
+ 
+    public List<Student> findStudentsByName(String name) {
+        List<Student> result = new ArrayList<>();
+        for (Student student : students) {
+            if (student.toString().contains(name)) {
+                result.add(student);
+            }
+        }
+        return result;
+    }
+ 
+    public List<Student> getAllStudents() {
+        return students;
+    }
+}
+ 
+public class StudentManagementSystem23 {
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "password";
+    private static Scanner scanner = new Scanner(System.in);
+    private static StudentDatabase database = new StudentDatabase();
+ 
+    public static void main(String[] args) {
+        if (!adminLogin()) {
+            System.out.println("Invalid login. Exiting...");
+            return;
+        }
+ 
+        while (true) {
+            System.out.println("1. Add Student");
+            System.out.println("2. Remove Student");
+            System.out.println("3. Update Student");
+            System.out.println("4. Display All Students");
+            System.out.println("5. Search Student");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+ 
+            switch (choice) {
+                case 1:
+                    addStudent();
+                    break;
+                case 2:
+                    removeStudent();
+                    break;
+                case 3:
+                    updateStudent();
+                    break;
+                case 4:
+                    displayAllStudents();
+                    break;
+                case 5:
+                    searchStudent();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+ 
+    private static boolean adminLogin() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        return ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password);
+    }
+ 
+    private static void addStudent() {
+        System.out.print("Enter ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        System.out.print("Enter gender: ");
+        String gender = scanner.nextLine();
+        System.out.print("Enter grade: ");
+        String grade = scanner.nextLine();
+        System.out.print("Enter contact information: ");
+        String contactInfo = scanner.nextLine();
+ 
+        Student student = new Student(id, name, age, gender, grade, contactInfo);
+        if (database.addStudent(student)) {
+            System.out.println("Student added successfully.");
+        } else {
+            System.out.println("Student with this ID already exists.");
+        }
+    }
+ 
+    private static void removeStudent() {
+        System.out.print("Enter student ID to remove: ");
+        String id = scanner.nextLine();
+        if (database.removeStudent(id)) {
+            System.out.println("Student removed successfully.");
+        } else {
+            System.out.println("Student with this ID not found.");
+        }
+    }
+ 
+    private static void updateStudent() {
+        System.out.print("Enter student ID to update: ");
+        String id = scanner.nextLine();
+        Student student = database.findStudentById(id);
+        if (student == null) {
+            System.out.println("Student with this ID not found.");
+            return;
+        }
+ 
+        System.out.print("Enter new name (leave blank to keep current): ");
+        String name = scanner.nextLine();
+        if (!name.isBlank()) {
+            student.setName(name);
+        }
+       
+        System.out.print("Enter new age (leave blank to keep current): ");
+        String ageInput = scanner.nextLine();
+        if (!ageInput.isBlank()) {
+            student.setAge(Integer.parseInt(ageInput));
+        }
+       
+        System.out.print("Enter new gender (leave blank to keep current): ");
+        String gender = scanner.nextLine();
+        if (!gender.isBlank()) {
+            student.setGender(gender);
+        }
+ 
+        System.out.print("Enter new grade (leave blank to keep current): ");
+        String grade = scanner.nextLine();
+        if (!grade.isBlank()) {
+            student.setGrade(grade);
+        }
+ 
+        System.out.print("Enter new contact information (leave blank to keep current): ");
+        String contactInfo = scanner.nextLine();
+        if (!contactInfo.isBlank()) {
+            student.setContactInfo(contactInfo);
+        }
+ 
+        System.out.println("Student information updated successfully.");
+    }
+ 
+    private static void displayAllStudents() {
+        List<Student> students = database.getAllStudents();
+        if (students.isEmpty()) {
+            System.out.println("No students found.");
+        } else {
+            for (Student student : students) {
+                System.out.println(student);
+            }
+        }
+    }
+ 
+    private static void searchStudent() {
+        System.out.println("1. Search by ID");
+        System.out.println("2. Search by Name");
+        System.out.println("3. Search by Grade");
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+ 
+        switch (choice) {
+            case 1:
+                System.out.print("Enter ID: ");
+                String id = scanner.nextLine();
+                Student studentById = database.findStudentById(id);
+                if (studentById != null) {
+                    System.out.println(studentById);
+                } else {
+                    System.out.println("Student with this ID not found.");
+                }
+                break;
+            case 2:
+                System.out.print("Enter name: ");
+                String name = scanner.nextLine();
+                List<Student> studentsByName = database.findStudentsByName(name);
+                if (studentsByName.isEmpty()) {
+                    System.out.println("No students found with this name.");
+                } else {
+                    for (Student student : studentsByName) {
+                        System.out.println(student);
+                    }
+                }
+                break;
+            case 3:
+                System.out.print("Enter grade: ");
+                String grade = scanner.nextLine();
+                List<Student> studentsByGrade = database.findStudentsByName(grade);
+                if (studentsByGrade.isEmpty()) {
+                    System.out.println("No students found with this grade.");
+                } else {
+                    for (Student student : studentsByGrade) {
+                        System.out.println(student);
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+}
+ 
