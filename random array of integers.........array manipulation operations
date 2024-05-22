@@ -1,0 +1,108 @@
+//13.
+// Generate a random array of integers with a specified size and range of values.
+// Implement the following array manipulation operations as separate methods:
+// a.   Rotate the elements of the array to the right by a specified number of position.
+// b.   Remove duplicate elements from the array while preserving the original order.
+// c.   Rearrange the elements of the array such that all even numbers appear before all odd numbers, preserving the
+//       relative order of even and odd numbers.
+
+,............................................................................
+import java.util.*;
+ 
+public class ArrayManipulation13 {
+ 
+    // Method to generate a random array of integers
+    public static int[] generateRandomArray(int size, int minValue, int maxValue) {
+        int[] array = new int[size];
+        Random random = new Random();
+        for (int i = 0; i < size; i++) {
+            array[i] = random.nextInt(maxValue - minValue + 1) + minValue;
+        }
+        return array;
+    }
+ 
+    // Method to rotate the elements of the array to the right by a specified number of positions
+    public static void rotateRight(int[] array, int positions) {
+        int n = array.length;
+        positions = positions % n;
+        reverseArray(array, 0, n - 1);
+        reverseArray(array, 0, positions - 1);
+        reverseArray(array, positions, n - 1);
+    }
+ 
+    private static void reverseArray(int[] array, int start, int end) {
+        while (start < end) {
+            int temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
+        }
+    }
+ 
+    // Method to remove duplicate elements from the array while preserving the original order
+    public static int[] removeDuplicates(int[] array) {
+        LinkedHashSet<Integer> set = new LinkedHashSet<>();
+        for (int num : array) {
+            set.add(num);
+        }
+        int[] uniqueArray = new int[set.size()];
+        int index = 0;
+        for (int num : set) {
+            uniqueArray[index++] = num;
+        }
+        return uniqueArray;
+    }
+ 
+    // Method to rearrange the elements so that all even numbers appear before all odd numbers
+    public static int[] rearrangeEvenBeforeOdd(int[] array) {
+        List<Integer> evens = new ArrayList<>();
+        List<Integer> odds = new ArrayList<>();
+        for (int num : array) {
+            if (num % 2 == 0) {
+                evens.add(num);
+            } else {
+                odds.add(num);
+            }
+        }
+        evens.addAll(odds);
+        int[] rearrangedArray = new int[evens.size()];
+        for (int i = 0; i < evens.size(); i++) {
+            rearrangedArray[i] = evens.get(i);
+        }
+        return rearrangedArray;
+    }
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        // Input for generating random array
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+        System.out.print("Enter the minimum value: ");
+        int minValue = scanner.nextInt();
+        System.out.print("Enter the maximum value: ");
+        int maxValue = scanner.nextInt();
+ 
+        int[] array = generateRandomArray(size, minValue, maxValue);
+        System.out.println("Generated array: " + Arrays.toString(array));
+ 
+        // Rotating the array
+        System.out.print("Enter the number of positions to rotate: ");
+        int positions = scanner.nextInt();
+        rotateRight(array, positions);
+        System.out.println("Array after rotation: " + Arrays.toString(array));
+ 
+        // Removing duplicates
+        int[] uniqueArray = removeDuplicates(array);
+        System.out.println("Array after removing duplicates: " + Arrays.toString(uniqueArray));
+ 
+        // Rearranging even and odd numbers
+        int[] rearrangedArray = rearrangeEvenBeforeOdd(uniqueArray);
+        System.out.println("Array after rearranging evens before odds: " + Arrays.toString(rearrangedArray));
+       
+        scanner.close();
+    }
+}
+ 
+ 
