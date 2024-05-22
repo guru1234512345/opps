@@ -1,0 +1,156 @@
+//15.
+// Design a Java program that should support functionalities such as employee registration, salary calculation, and
+//employee evaluation. The program should have the following features:
+ 
+// •    Employee Hierarchy:
+// §    Design an abstract superclass called Employee.
+// §    Implement subclasses FullTimeEmployee and PartTimeEmployee that inherit from Employee.
+// §    Each subclass should have instance variables to store employee details such as name, employee ID, and salary
+//      information (e.g., hourly rate for part-time employees, monthly salary for full-time employees).
+// §    Each subclass should override methods such as calculateSalary() to perform salary calculation specific
+//      to the employee type and evaluatePerformance() to evaluate employee performance.
+ 
+// •    Salary Calculation:
+// o    Implement methods in each subclass to calculate the salary based on the employee's work hours or performance metrics.
+// o    Ensure that salaries are calculated accurately and take into account factors such as overtime pay or performance bonuses.
+// o    Performance evaluation not applicable for part-time employee
+ 
+// •    Input/Output:
+// o    Implement a user interface to interact with the employee management system.
+// o    Allow the user to register new employees with unique employee IDs and provide their relevant details.
+// o    Provide options to calculate and display the salary for each employee.
+// o    Implement functionality to evaluate the performance of employees and display performance ratings.
+
+
+
+import java.util.*;
+ 
+// Abstract superclass Employee
+abstract class Employee {
+    private String name;
+    private int employeeID;
+ 
+    public Employee(String name, int employeeID) {
+        this.name = name;
+        this.employeeID = employeeID;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public int getEmployeeID() {
+        return employeeID;
+    }
+ 
+    public abstract double calculateSalary();
+ 
+    public abstract void evaluatePerformance();
+}
+ 
+// FullTimeEmployee subclass
+class FullTimeEmployee extends Employee {
+    private double monthlySalary;
+ 
+    public FullTimeEmployee(String name, int employeeID, double monthlySalary) {
+        super(name, employeeID);
+        this.monthlySalary = monthlySalary;
+    }
+ 
+    @Override
+    public double calculateSalary() {
+        return monthlySalary;
+    }
+ 
+    @Override
+    public void evaluatePerformance() {
+        System.out.println("Performance evaluation for Full-Time Employee " + getName() + ": Excellent");
+    }
+}
+ 
+// PartTimeEmployee subclass
+class PartTimeEmployee extends Employee {
+    private double hourlyRate;
+    private int hoursWorked;
+ 
+    public PartTimeEmployee(String name, int employeeID, double hourlyRate, int hoursWorked) {
+        super(name, employeeID);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+ 
+    @Override
+    public double calculateSalary() {
+        double salary = hourlyRate * hoursWorked;
+        if (hoursWorked > 40) {
+            salary += (hoursWorked - 40) * hourlyRate * 0.5; // Overtime pay calculation
+        }
+        return salary;
+    }
+ 
+    @Override
+    public void evaluatePerformance() {
+        System.out.println("Performance evaluation not applicable for Part-Time Employee " + getName());
+    }
+}
+ 
+public class EmployeeManagementSystem15 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        List<Employee> employees = new ArrayList<>();
+ 
+        while (true) {
+            System.out.println("1. Register Full-Time Employee");
+            System.out.println("2. Register Part-Time Employee");
+            System.out.println("3. Calculate Salary");
+            System.out.println("4. Evaluate Performance");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+ 
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Full-Time Employee Name: ");
+                    String ftName = scanner.nextLine();
+                    System.out.print("Enter Employee ID: ");
+                    int ftID = scanner.nextInt();
+                    System.out.print("Enter Monthly Salary: ");
+                    double monthlySalary = scanner.nextDouble();
+                    employees.add(new FullTimeEmployee(ftName, ftID, monthlySalary));
+                    break;
+                case 2:
+                    System.out.print("Enter Part-Time Employee Name: ");
+                    String ptName = scanner.nextLine();
+                    System.out.print("Enter Employee ID: ");
+                    int ptID = scanner.nextInt();
+                    System.out.print("Enter Hourly Rate: ");
+                    double hourlyRate = scanner.nextDouble();
+                    System.out.print("Enter Hours Worked: ");
+                    int hoursWorked = scanner.nextInt();
+                    employees.add(new PartTimeEmployee(ptName, ptID, hourlyRate, hoursWorked));
+                    break;
+                case 3:
+                    System.out.println("Employee Salaries:");
+                    for (Employee emp : employees) {
+                        System.out.println(emp.getName() + " (ID: " + emp.getEmployeeID() + ") - Salary: $" + emp.calculateSalary());
+                    }
+                    break;
+                case 4:
+                    System.out.println("Employee Performance Evaluation:");
+                    for (Employee emp : employees) {
+                        emp.evaluatePerformance();
+                    }
+                    break;
+                case 5:
+                    System.out.println("Exiting Employee Management System.");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+ 
